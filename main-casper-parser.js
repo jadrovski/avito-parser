@@ -14,9 +14,7 @@ var casper = require('casper').create({
     viewportSize: {
         width: 1024,
         height: 768
-    },
-    verbose: true,
-    logLevel: "debug"
+    }
 });
 casper.start();
 
@@ -25,7 +23,6 @@ casper.on('resource.requested', function (requestData, request) {
     for (var url in block_urls) {
         if (requestData.url.indexOf(block_urls[url]) !== -1) {
             request.abort();
-            console.log(requestData.url + " aborted");
             return;
         }
     }
@@ -41,6 +38,7 @@ casper.each(settings.cities, function (self, city) {
             casper.then(function () {
                 console.log(' - saving...');
                 saveCars(cars, 'output/' + city + '-' + car.name + '-' + carModel + '.json');
+                console.log('total of ' + city + ', ' + car.name + ' ' + carModel + ': ' + cars.length);
             });
         });
     });
@@ -56,11 +54,29 @@ function saveCars(cars, fileName) {
 
     var carsOld = JSON.parse(fs.read(fileName));
     casper.each(cars, function (self, carNew) {
-        if (!carsOld.find(function (car) {
-                return car.url === carNew.url;
-            })) {
+        var found = carsOld.find(function (car) {
+            return car.url === carNew.url;
+        });
+        if (!found) {
             casper.echo('new link! ' + carNew.url);
             carsOld.push(carNew);
+        } else {
+            if (found.price != carNew.price) {
+                if (typeof found.priceHistory === 'undefined') {
+                    found.priceHistory = [];
+                }
+                found.priceHistory.push(found.price);
+                found.price = carNew.price;
+                casper.echo('price changed! ' + carNew.url);
+            }
+        }
+    });
+    casper.each(carsOld, function (self, carOld) {
+        if (!cars.find(function (car) {
+                return car.url === carOld.url;
+            })) {
+            casper.echo('deprecated! ' + carOld.url);
+            carOld.deprecated = true;
         }
     });
     fs.write(fileName, JSON.stringify(carsOld), 'w');

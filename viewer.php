@@ -6,7 +6,7 @@ if (!isset($_GET['fileName'])) {
         if ($file != "." && $file != "..") {
             $file = basename($file, '.json');
             ?>
-            <a href="?fileName=<?= $file ?>"><?= $file ?></a>
+            <a href="?fileName=<?= $file ?>"><?= $file ?></a><br>
             <?php
         }
     }

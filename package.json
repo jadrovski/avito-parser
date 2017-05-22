@@ -1,6 +1,9 @@
 {
   "name": "avito",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node avito.js"
+  },
   "devDependencies": {
     "phantomjs-polyfill-find": "latest"
   },

@@ -17,6 +17,7 @@ casper.each(settings.cities, function (self, city) {
             var cars = [];
             fetchCars(casper, url, cars);
             casper.then(function () {
+                console.log(' - saving...');
                 saveCars(cars, 'output/' + city + '-' + car.name + '-' + carModel + '.json');
             });
         });
@@ -46,7 +47,9 @@ function saveCars(cars, fileName) {
 function fetchCars(casper, url, cars) {
     console.log('going to url: ' + url);
     casper.thenOpen(url, function () {
+        console.log(' - waiting for catalog...');
         casper.waitForSelector('.catalog_table', function () {
+            console.log(' - parsing entities...');
             var parsedCars = parseTable(casper);
             cars.push.apply(cars, parsedCars);
             if (this.exists('.js-pagination-next')) {

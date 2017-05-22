@@ -8,9 +8,15 @@ var parseTable = require('./parse-table');
 
 var casper = require('casper').create({
     pageSettings: {
-        loadImages:  false,
+        loadImages: false,
         loadPlugins: false
-    }
+    },
+    viewportSize: {
+        width: 1024,
+        height: 768
+    },
+    verbose: true,
+    logLevel: "debug"
 });
 casper.start();
 

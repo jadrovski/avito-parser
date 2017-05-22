@@ -6,7 +6,12 @@ var fs = require('fs');
 var settings = require('./settings.json');
 var parseTable = require('./parse-table');
 
-var casper = require('casper').create();
+var casper = require('casper').create({
+    pageSettings: {
+        loadImages:  false,
+        loadPlugins: false
+    }
+});
 casper.start();
 
 casper.each(settings.cities, function (self, city) {

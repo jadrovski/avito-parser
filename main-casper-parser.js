@@ -20,11 +20,22 @@ var casper = require('casper').create({
 });
 casper.start();
 
+var block_urls = ['yandex.ru', 'about:blank', 'googlesyndication', 'doubleclick', 'criteo.com'];
+casper.on('resource.requested', function (requestData, request) {
+    for (var url in block_urls) {
+        if (requestData.url.indexOf(block_urls[url]) !== -1) {
+            request.abort();
+            console.log(requestData.url + " aborted");
+            return;
+        }
+    }
+});
+
 casper.each(settings.cities, function (self, city) {
     casper.each(settings.cars, function (self, car) {
         //noinspection JSUnresolvedVariable
         casper.each(car.models, function (self, carModel) {
-            var url = 'http://avito.ru/' + city + '/avtomobili/' + car.name + '/' + carModel;
+            var url = 'https://www.avito.ru/' + city + '/avtomobili/' + car.name + '/' + carModel;
             var cars = [];
             fetchCars(casper, url, cars);
             casper.then(function () {
@@ -64,7 +75,7 @@ function fetchCars(casper, url, cars) {
             var parsedCars = parseTable(casper);
             cars.push.apply(cars, parsedCars);
             if (this.exists('.js-pagination-next')) {
-                var href = 'http://avito.ru' + casper.getElementAttribute('.js-pagination-next', 'href');
+                var href = 'https://www.avito.ru' + casper.getElementAttribute('.js-pagination-next', 'href');
                 var fetchedNextCars = fetchCars(casper, href, cars);
                 cars.push.apply(cars, fetchedNextCars);
             }

@@ -1,0 +1,11 @@
+{
+  "name": "avito",
+  "version": "0.0.1",
+  "devDependencies": {
+    "phantomjs-polyfill-find": "latest"
+  },
+  "dependencies": {
+    "casperjs": "^1.1.4",
+    "phantomjs-prebuilt": "^2.1.14"
+  }
+}

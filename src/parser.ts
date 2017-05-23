@@ -75,14 +75,14 @@ namespace Avito {
                 }
             }
         });
-        casper.each(carsOld, function (self, carOld) {
+        /*casper.each(carsOld, function (self, carOld) {
             if (!cars.find(function (car) {
                     return car.url === carOld.url;
                 })) {
                 casper.echo(`deprecated! ${carOld.url}`);
                 carOld.deprecated = true;
             }
-        });
+        });*/
         fs.write(fileName, JSON.stringify(carsOld), 'w');
     }
 
@@ -109,7 +109,8 @@ namespace Avito {
                             url: $item.find('.item-description-title-link').attr('href'),
                             photo: image,
                             description: description,
-                            price: price
+                            price: price,
+                            fresh: true
                         });
                     });
                     return cars;

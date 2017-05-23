@@ -197,14 +197,14 @@ var Avito;
                 }
             }
         });
-        casper.each(carsOld, function (self, carOld) {
+        /*casper.each(carsOld, function (self, carOld) {
             if (!cars.find(function (car) {
-                return car.url === carOld.url;
-            })) {
-                casper.echo("deprecated! " + carOld.url);
+                    return car.url === carOld.url;
+                })) {
+                casper.echo(`deprecated! ${carOld.url}`);
                 carOld.deprecated = true;
             }
-        });
+        });*/
         fs.write(fileName, JSON.stringify(carsOld), 'w');
     }
     function fetchCars(casper, url, cars) {
@@ -229,7 +229,8 @@ var Avito;
                             url: $item.find('.item-description-title-link').attr('href'),
                             photo: image,
                             description: description,
-                            price: price
+                            price: price,
+                            fresh: true
                         });
                     });
                     return cars;

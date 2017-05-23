@@ -6,18 +6,12 @@
     {
       "name": "citroen",
       "models": ["c4"],
-      "transmission": "mt",
-      "mileage": ["0", "120 000 "],
-      "year": ["2007", "2011"],
-      "price": ["250000", "400000"]
+      "transmissions": ["MT"]
     },
     {
       "name": "peugeot",
       "models": ["307", "308"],
-      "transmission": "mt",
-      "mileage": ["0", "120 000 "],
-      "year": ["2007", "2011"],
-      "price": ["250000", "400000"]
+      "transmissions": ["AT", "MT"]
     }
   ]
 }

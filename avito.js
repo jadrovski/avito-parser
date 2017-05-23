@@ -17,5 +17,6 @@ program.on('exit', function () {
             });
             fs.writeFile('output/' + file, JSON.stringify(cars));
         });
+        fs.writeFile('output/fresh.json', JSON.stringify(freshCars));
     })
 });

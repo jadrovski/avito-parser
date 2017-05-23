@@ -1,3 +1,4 @@
+/// <reference path="./Price.ts" />
 var Avito;
 (function (Avito) {
     var Params;
@@ -47,9 +48,57 @@ var Avito;
     })(Transmissions = Avito.Transmissions || (Avito.Transmissions = {}));
 })(Avito || (Avito = {}));
 /// <reference path="./Car.ts" />
+var Avito;
+(function (Avito) {
+    var years = {
+        'от 1980 г.в.': '',
+        'до 1960': '771',
+        '1970': '782',
+        '1980': '873',
+        '1985': '878',
+        '1990': '883',
+        '1991': '884',
+        '1992': '885',
+        '1993': '886',
+        '1994': '887',
+        '1995': '888',
+        '1996': '889',
+        '1997': '890',
+        '1998': '891',
+        '1999': '892',
+        '2000': '893',
+        '2001': '894',
+        '2002': '895',
+        '2003': '896',
+        '2004': '897',
+        '2005': '898',
+        '2006': '899',
+        '2007': '900',
+        '2008': '901',
+        '2009': '902',
+        '2010': '2844',
+        '2011': '2845',
+        '2012': '6045',
+        '2013': '8581',
+        '2014': '11017',
+        '2015': '13978',
+        '2016': '16381',
+        '2017': '19775'
+    };
+    var Years = (function () {
+        function Years() {
+        }
+        return Years;
+    }());
+    Years.getYearId = function (name) {
+        return years[name];
+    };
+    Avito.Years = Years;
+})(Avito || (Avito = {}));
 /// <reference path="./Car.ts" />
 /// <reference path="./Transmissions.ts" />
 /// <reference path="./Params.ts" />
+/// <reference path="./Years.ts" />
 var Avito;
 (function (Avito) {
     var UrlBuilder = (function () {
@@ -57,15 +106,18 @@ var Avito;
         }
         UrlBuilder.build = function (city, car, carModel) {
             var params = [];
-            var transmissions = car.transmissions.map(function (tr) {
-                return Avito.Transmissions[tr];
-            });
-            params.push(new Avito.Param(Avito.Params.Transmission, Avito.ParamValueTypes.Selection, transmissions));
+            if (car.transmissions.length) {
+                var transmissions = car.transmissions.map(function (tr) {
+                    return Avito.Transmissions[tr];
+                });
+                params.push(new Avito.Param(Avito.Params.Transmission, Avito.ParamValueTypes.Selection, transmissions));
+            }
+            params.push(new Avito.Param(Avito.Params.Year, Avito.ParamValueTypes.Range, [Avito.Years.getYearId(car.years.min), Avito.Years.getYearId(car.years.max)]));
             var paramsStrings = params.map(function (param) {
                 return param.build();
             });
             var paramsGlued = paramsStrings.join('.');
-            return this.getBaseUrl() + "/" + city + "/avtomobili/" + car.name + "/" + carModel + "?f=" + paramsGlued;
+            return this.getBaseUrl() + "/" + city + "/avtomobili/" + car.name + "/" + carModel + "?f=" + paramsGlued + "&pmin=" + car.price.min + "&pmax=" + car.price.max;
         };
         UrlBuilder.getBaseUrl = function () {
             return 'https://www.avito.ru';
@@ -109,8 +161,6 @@ var Avito;
             //noinspection JSUnresolvedVariable
             casper.each(car.models, function (self, carModel) {
                 var url = Avito.UrlBuilder.build(city, car, carModel);
-                console.log(url);
-                casper.exit();
                 var cars = [];
                 fetchCars(casper, url, cars);
                 casper.then(function () {

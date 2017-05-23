@@ -5,13 +5,39 @@
   "cars": [
     {
       "name": "citroen",
-      "models": ["c4"],
-      "transmissions": ["MT"]
+      "models": [
+        "c4"
+      ],
+      "transmissions": [
+        "MT"
+      ],
+      "years": {
+        "min": "2008",
+        "max": "2012"
+      },
+      "price": {
+        "min": "250000",
+        "max": "400000"
+      }
     },
     {
       "name": "peugeot",
-      "models": ["307", "308"],
-      "transmissions": ["AT", "MT"]
+      "models": [
+        "307",
+        "308"
+      ],
+      "transmissions": [
+        "AT",
+        "MT"
+      ],
+      "years": {
+        "min": "2008",
+        "max": "2012"
+      },
+      "price": {
+        "min": "250000",
+        "max": "400000"
+      }
     }
   ]
 }

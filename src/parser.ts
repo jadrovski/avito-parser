@@ -37,8 +37,6 @@ namespace Avito {
             //noinspection JSUnresolvedVariable
             casper.each(car.models, function (self, carModel) {
                 var url = UrlBuilder.build(city, car, carModel);
-                console.log(url);
-                casper.exit();
                 var cars = [];
                 fetchCars(casper, url, cars);
                 casper.then(function () {

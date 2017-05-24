@@ -117,7 +117,7 @@ var Avito;
                 return param.build();
             });
             var paramsGlued = paramsStrings.join('.');
-            return this.getBaseUrl() + "/" + city + "/avtomobili/" + car.name + "/" + carModel + "?f=" + paramsGlued + "&pmin=" + car.price.min + "&pmax=" + car.price.max;
+            return this.getBaseUrl() + "/" + city + "/avtomobili/" + car.name + "/" + carModel + "?f=" + paramsGlued + "&pmin=" + car.price.min + "&pmax=" + car.price.max + "&user=1";
         };
         UrlBuilder.getBaseUrl = function () {
             return 'https://www.avito.ru';
@@ -135,7 +135,7 @@ var Avito;
     phantom.injectJs(phantom['casperPath'] + '/bin/bootstrap.js');
     require('phantomjs-polyfill-find');
     var fs = require('fs');
-    var settings = require('./../settings.json');
+    var settings = require('./../settings.avito.json.example');
     var casper = require('casper').create({
         pageSettings: {
             loadImages: false,
@@ -144,7 +144,8 @@ var Avito;
         viewportSize: {
             width: 1024,
             height: 768
-        }
+        },
+        waitTimeout: 10000
     });
     casper.start();
     var block_urls = ['yandex.ru', 'about:blank', 'googlesyndication', 'doubleclick', 'criteo.com'];

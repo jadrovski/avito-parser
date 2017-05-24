@@ -20,7 +20,7 @@ namespace Avito {
                 return param.build();
             });
             const paramsGlued = paramsStrings.join('.');
-            return `${this.getBaseUrl()}/${city}/avtomobili/${car.name}/${carModel}?f=${paramsGlued}&pmin=${car.price.min}&pmax=${car.price.max}`;
+            return `${this.getBaseUrl()}/${city}/avtomobili/${car.name}/${carModel}?f=${paramsGlued}&pmin=${car.price.min}&pmax=${car.price.max}&user=1`;
         }
 
         public static getBaseUrl() {

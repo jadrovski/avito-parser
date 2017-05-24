@@ -8,7 +8,7 @@ namespace Avito {
 
     require('phantomjs-polyfill-find');
     var fs = require('fs');
-    var settings:Settings = require('./../settings.json');
+    var settings:Settings = require('./../settings.avito.json.example');
 
     var casper = require('casper').create({
         pageSettings: {
@@ -18,7 +18,8 @@ namespace Avito {
         viewportSize: {
             width: 1024,
             height: 768
-        }
+        },
+        waitTimeout: 10000
     });
     casper.start();
 

@@ -1,6 +1,7 @@
 {
   "cities": [
-    "tver"
+    "tver",
+    "moskva"
   ],
   "cars": [
     {
@@ -23,11 +24,9 @@
     {
       "name": "peugeot",
       "models": [
-        "307",
         "308"
       ],
       "transmissions": [
-        "AT",
         "MT"
       ],
       "years": {

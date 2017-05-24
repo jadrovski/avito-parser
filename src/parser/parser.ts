@@ -95,7 +95,7 @@ namespace Avito {
             casper.waitForSelector('.catalog_table', function () {
                 console.log(` - parsing entities...`);
                 var parsedCars = casper.evaluate(function () {
-                    var cars:any = [];
+                    var cars:Array<CarOutput> = [];
                     var sel = $('.item_table');
                     $.each(sel, function (key, val) {
                         var $item = $(val);

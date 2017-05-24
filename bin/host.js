@@ -22,14 +22,14 @@ program.on('exit', function () {
         var transporter = nodemailer.createTransport(nodemailerSettings.mailer);
         var html = '<ul>';
         freshCars.forEach(function (car) {
-            html += '<li><a href="https://avito.ru/' + car.url + '">' + car.description + '</a></li>';
+            html += "<li><a href=\"https://avito.ru/" + car.url + "\">" + car.description + " / " + car.price + "</a></li>";
         });
         html += '</ul>';
         var mailOptions = {
             from: nodemailerSettings.mailOptions.from,
             to: nodemailerSettings.mailOptions.to,
-            subject: freshCars.length + ' new cars!',
-            html: html // html body
+            subject: freshCars.length + " new cars!",
+            html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {

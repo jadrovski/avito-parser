@@ -2,4 +2,4 @@
 /output
 .idea
 settings*.json
-bin/*.js
+/bin/*.js

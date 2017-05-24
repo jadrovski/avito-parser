@@ -11,7 +11,7 @@ program.on('exit', function () {
     fs.readdir('output', (err, files) => {
         let freshCars:Array<CarOutput> = [];
         files.forEach(file => {
-            var cars = JSON.parse(fs.readFileSync('output/' + file, 'utf8'));
+            var cars:Array<CarOutput> = JSON.parse(fs.readFileSync('output/' + file, 'utf8'));
             cars.forEach(car => {
                 if (car.fresh === true) {
                     car.fresh = false;
@@ -26,14 +26,15 @@ program.on('exit', function () {
         let transporter = nodemailer.createTransport(nodemailerSettings.mailer);
         let html = '<ul>';
         freshCars.forEach(car => {
-            html += '<li><a href="https://avito.ru/' + car.url + '">' + car.description + '</a></li>';
+            html += `<li><a href="https://avito.ru/${car.url}">${car.description} / ${car.price}</a></li>`;
         });
         html += '</ul>';
+
         let mailOptions = {
-            from: nodemailerSettings.mailOptions.from, // sender address
-            to: nodemailerSettings.mailOptions.to, // list of receivers
-            subject: freshCars.length + ' new cars!', // Subject line
-            html: html // html body
+            from: nodemailerSettings.mailOptions.from,
+            to: nodemailerSettings.mailOptions.to,
+            subject: `${freshCars.length} new cars!`,
+            html: html
         };
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {

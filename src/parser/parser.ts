@@ -1,6 +1,7 @@
 /// <reference path="./Transmissions.ts" />
 /// <reference path="./Settings.ts" />
 /// <reference path="./UrlBuilder.ts" />
+/// <reference path="./../CarOutput.ts" />
 
 namespace Avito {
     phantom['casperPath'] = 'node_modules/casperjs';
@@ -8,7 +9,7 @@ namespace Avito {
 
     require('phantomjs-polyfill-find');
     var fs = require('fs');
-    var settings:Settings = require('./../settings.avito.json.example');
+    var settings:Settings = require('./settings.avito.json');
 
     var casper = require('casper').create({
         pageSettings: {
@@ -58,7 +59,7 @@ namespace Avito {
         }
 
         var carsOld = JSON.parse(fs.read(fileName));
-        casper.each(cars, function (self, carNew) {
+        casper.each(cars, function (self, carNew:CarOutput) {
             var found = carsOld.find(function (car) {
                 return car.url === carNew.url;
             });

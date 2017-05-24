@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "outFile": "../../bin/host.js",
+    "strictNullChecks": true,
+    "types": ["node"]
+  }
+}

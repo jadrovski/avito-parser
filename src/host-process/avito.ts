@@ -1,12 +1,15 @@
+/// <reference path="./../CarOutput.ts" />
+import CarOutput = Avito.CarOutput;
+
 var phantomjs = require('phantomjs-prebuilt');
 var nodemailerSettings = require('./settings.nodemailer.json');
-var program = phantomjs.exec('parser.js');
+var program = phantomjs.exec('./bin/parser.js');
 program.stdout.pipe(process.stdout);
 program.stderr.pipe(process.stderr);
 program.on('exit', function () {
     const fs = require('fs');
     fs.readdir('output', (err, files) => {
-        var freshCars = [];
+        let freshCars:Array<CarOutput> = [];
         files.forEach(file => {
             var cars = JSON.parse(fs.readFileSync('output/' + file, 'utf8'));
             cars.forEach(car => {

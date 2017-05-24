@@ -2,7 +2,7 @@
   "name": "avito",
   "version": "0.0.1",
   "scripts": {
-    "start": "node avito.js"
+    "start": "node bin/host.js"
   },
   "devDependencies": {
     "phantomjs-polyfill-find": "latest"
@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/casperjs": "^1.0.31",
     "@types/jquery": "^2.0.45",
+    "@types/node": "^7.0.22",
     "casperjs": "^1.1.4",
     "nodemailer": "^4.0.1",
     "phantomjs-prebuilt": "^2.1.14"

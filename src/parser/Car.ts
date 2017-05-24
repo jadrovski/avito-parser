@@ -1,4 +1,5 @@
 /// <reference path="./Price.ts" />
+/// <reference path="./Years.ts" />
 
 namespace Avito {
     export interface Car {

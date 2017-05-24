@@ -1,4 +1,52 @@
+var Avito;
+(function (Avito) {
+    var years = {
+        'от 1980 г.в.': '',
+        'до 1960': '771',
+        '1970': '782',
+        '1980': '873',
+        '1985': '878',
+        '1990': '883',
+        '1991': '884',
+        '1992': '885',
+        '1993': '886',
+        '1994': '887',
+        '1995': '888',
+        '1996': '889',
+        '1997': '890',
+        '1998': '891',
+        '1999': '892',
+        '2000': '893',
+        '2001': '894',
+        '2002': '895',
+        '2003': '896',
+        '2004': '897',
+        '2005': '898',
+        '2006': '899',
+        '2007': '900',
+        '2008': '901',
+        '2009': '902',
+        '2010': '2844',
+        '2011': '2845',
+        '2012': '6045',
+        '2013': '8581',
+        '2014': '11017',
+        '2015': '13978',
+        '2016': '16381',
+        '2017': '19775'
+    };
+    var Years = (function () {
+        function Years() {
+        }
+        return Years;
+    }());
+    Years.getYearId = function (name) {
+        return years[name];
+    };
+    Avito.Years = Years;
+})(Avito || (Avito = {}));
 /// <reference path="./Price.ts" />
+/// <reference path="./Years.ts" />
 var Avito;
 (function (Avito) {
     var Params;
@@ -48,53 +96,6 @@ var Avito;
     })(Transmissions = Avito.Transmissions || (Avito.Transmissions = {}));
 })(Avito || (Avito = {}));
 /// <reference path="./Car.ts" />
-var Avito;
-(function (Avito) {
-    var years = {
-        'от 1980 г.в.': '',
-        'до 1960': '771',
-        '1970': '782',
-        '1980': '873',
-        '1985': '878',
-        '1990': '883',
-        '1991': '884',
-        '1992': '885',
-        '1993': '886',
-        '1994': '887',
-        '1995': '888',
-        '1996': '889',
-        '1997': '890',
-        '1998': '891',
-        '1999': '892',
-        '2000': '893',
-        '2001': '894',
-        '2002': '895',
-        '2003': '896',
-        '2004': '897',
-        '2005': '898',
-        '2006': '899',
-        '2007': '900',
-        '2008': '901',
-        '2009': '902',
-        '2010': '2844',
-        '2011': '2845',
-        '2012': '6045',
-        '2013': '8581',
-        '2014': '11017',
-        '2015': '13978',
-        '2016': '16381',
-        '2017': '19775'
-    };
-    var Years = (function () {
-        function Years() {
-        }
-        return Years;
-    }());
-    Years.getYearId = function (name) {
-        return years[name];
-    };
-    Avito.Years = Years;
-})(Avito || (Avito = {}));
 /// <reference path="./Car.ts" />
 /// <reference path="./Transmissions.ts" />
 /// <reference path="./Params.ts" />
@@ -129,13 +130,14 @@ var Avito;
 /// <reference path="./Transmissions.ts" />
 /// <reference path="./Settings.ts" />
 /// <reference path="./UrlBuilder.ts" />
+/// <reference path="./../CarOutput.ts" />
 var Avito;
 (function (Avito) {
     phantom['casperPath'] = 'node_modules/casperjs';
     phantom.injectJs(phantom['casperPath'] + '/bin/bootstrap.js');
     require('phantomjs-polyfill-find');
     var fs = require('fs');
-    var settings = require('./../settings.avito.json.example');
+    var settings = require('./settings.avito.json');
     var casper = require('casper').create({
         pageSettings: {
             loadImages: false,

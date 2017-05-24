@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "outFile": "../../bin/parser.js",
+    "strictNullChecks": true,
+    "types": ["phantomjs", "jquery"]
+  }
+}

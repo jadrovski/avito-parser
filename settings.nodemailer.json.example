@@ -1,7 +1,13 @@
 {
-  "service": "gmail",
-  "auth": {
-    "user": "user@gmail.com",
-    "pass": "password"
+  "mailer": {
+    "service": "gmail",
+    "auth": {
+      "user": "user@gmail.com",
+      "pass": "password"
+    }
+  },
+  "mailOptions": {
+    "from": "AVITO",
+    "to": "sendto@gmail.com"
   }
 }

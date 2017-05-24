@@ -6,6 +6,7 @@ var nodemailerSettings = require('./settings.nodemailer.json');
 var program = phantomjs.exec('./bin/parser.js');
 program.stdout.pipe(process.stdout);
 program.stderr.pipe(process.stderr);
+
 program.on('exit', function () {
     const fs = require('fs');
     fs.readdir('output', (err, files) => {
@@ -22,26 +23,31 @@ program.on('exit', function () {
             fs.writeFile('output/' + file, JSON.stringify(cars));
         });
 
-        const nodemailer = require('nodemailer');
-        let transporter = nodemailer.createTransport(nodemailerSettings.mailer);
-        let html = '<ul>';
-        freshCars.forEach(car => {
-            html += `<li><a href="https://avito.ru/${car.url}">${car.description} / ${car.price}</a></li>`;
-        });
-        html += '</ul>';
-
-        let mailOptions = {
-            from: nodemailerSettings.mailOptions.from,
-            to: nodemailerSettings.mailOptions.to,
-            subject: `${freshCars.length} new cars!`,
-            html: html
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
-
+        if(freshCars.length) {
+            notifyByEmail(freshCars);
+        }
     });
 });
+
+function notifyByEmail(freshCars:Array<CarOutput>) {
+    const nodemailer = require('nodemailer');
+    let transporter = nodemailer.createTransport(nodemailerSettings.mailer);
+    let html = '<ul>';
+    freshCars.forEach(car => {
+        html += `<li><a href="https://avito.ru/${car.url}">${car.description} / ${car.price}</a></li>`;
+    });
+    html += '</ul>';
+
+    let mailOptions = {
+        from: nodemailerSettings.mailOptions.from,
+        to: nodemailerSettings.mailOptions.to,
+        subject: `${freshCars.length} new cars!`,
+        html: html
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+}

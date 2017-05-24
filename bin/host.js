@@ -18,24 +18,29 @@ program.on('exit', function () {
             });
             fs.writeFile('output/' + file, JSON.stringify(cars));
         });
-        var nodemailer = require('nodemailer');
-        var transporter = nodemailer.createTransport(nodemailerSettings.mailer);
-        var html = '<ul>';
-        freshCars.forEach(function (car) {
-            html += "<li><a href=\"https://avito.ru/" + car.url + "\">" + car.description + " / " + car.price + "</a></li>";
-        });
-        html += '</ul>';
-        var mailOptions = {
-            from: nodemailerSettings.mailOptions.from,
-            to: nodemailerSettings.mailOptions.to,
-            subject: freshCars.length + " new cars!",
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
+        if (freshCars.length) {
+            notifyByEmail(freshCars);
+        }
     });
 });
+function notifyByEmail(freshCars) {
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport(nodemailerSettings.mailer);
+    var html = '<ul>';
+    freshCars.forEach(function (car) {
+        html += "<li><a href=\"https://avito.ru/" + car.url + "\">" + car.description + " / " + car.price + "</a></li>";
+    });
+    html += '</ul>';
+    var mailOptions = {
+        from: nodemailerSettings.mailOptions.from,
+        to: nodemailerSettings.mailOptions.to,
+        subject: freshCars.length + " new cars!",
+        html: html
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+    });
+}

@@ -1,40 +1,47 @@
 /// <reference path="./../CarOutput.ts" />
 import CarOutput = Avito.CarOutput;
 
-var phantomjs = require('phantomjs-prebuilt');
-var nodemailerSettings = require('./settings.nodemailer.json');
-var program = phantomjs.exec('./bin/parser.js');
-program.stdout.pipe(process.stdout);
-program.stderr.pipe(process.stderr);
+const phantomjs = require('phantomjs-prebuilt');
+const schedule = require('node-schedule');
+const nodemailer = require('nodemailer');
+const nodemailerSettings = require('./settings.nodemailer.json');
 
-program.on('exit', function () {
-    const fs = require('fs');
-    fs.readdir('output', (err, files) => {
-        let freshCars:Array<CarOutput> = [];
-        files.forEach(file => {
-            var cars:Array<CarOutput> = JSON.parse(fs.readFileSync('output/' + file, 'utf8'));
-            cars.forEach(car => {
-                if (car.fresh === true) {
-                    car.fresh = false;
-                    freshCars.push(car);
-                    console.log('new! ' + car.url);
-                }
-            });
-            fs.writeFile('output/' + file, JSON.stringify(cars));
-        });
-
-        if(freshCars.length) {
-            notifyByEmail(freshCars);
-        }
-    });
+schedule.scheduleJob('*/10 * * * *', function () {
+    exec();
 });
 
+function exec() {
+    var program = phantomjs.exec('./bin/parser.js');
+    program.stdout.pipe(process.stdout);
+    program.stderr.pipe(process.stderr);
+    program.on('exit', function () {
+        const fs = require('fs');
+        fs.readdir('output', (err, files) => {
+            let freshCars:Array<CarOutput> = [];
+            files.forEach(file => {
+                var cars:Array<CarOutput> = JSON.parse(fs.readFileSync('output/' + file, 'utf8'));
+                cars.forEach(car => {
+                    if (car.fresh === true) {
+                        car.fresh = false;
+                        freshCars.push(car);
+                        console.log('new! ' + car.url);
+                    }
+                });
+                fs.writeFile('output/' + file, JSON.stringify(cars));
+            });
+
+            if (freshCars.length) {
+                notifyByEmail(freshCars);
+            }
+        });
+    });
+}
+
 function notifyByEmail(freshCars:Array<CarOutput>) {
-    const nodemailer = require('nodemailer');
     let transporter = nodemailer.createTransport(nodemailerSettings.mailer);
     let html = '<ul>';
     freshCars.forEach(car => {
-        html += `<li><a href="https://avito.ru/${car.url}">${car.description} / ${car.price}</a></li>`;
+        html += `<li><a href="https://avito.ru/${car.url}">${car.description} / ${car.url} / ${car.price}</a></li>`;
     });
     html += '</ul>';
 

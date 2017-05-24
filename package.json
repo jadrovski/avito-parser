@@ -12,6 +12,7 @@
     "@types/jquery": "^2.0.45",
     "@types/node": "^7.0.22",
     "casperjs": "^1.1.4",
+    "node-schedule": "^1.2.3",
     "nodemailer": "^4.0.1",
     "phantomjs-prebuilt": "^2.1.14"
   }

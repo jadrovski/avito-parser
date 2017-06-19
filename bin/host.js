@@ -5,6 +5,7 @@ var nodemailerSettings = require('./settings.nodemailer.json');
 schedule.scheduleJob('*/10 * * * *', function () {
     exec();
 });
+exec();
 function exec() {
     var program = phantomjs.exec('./bin/parser.js');
     program.stdout.pipe(process.stdout);
